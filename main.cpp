@@ -1,10 +1,11 @@
 #include <iostream>
+#include <string>
 #include <algorithm>
 
 char** fn_DecArrBasic();
 std::pair<char*, int*> fn_DecArrSpec();
 void fn_RemDyMem(char** c2p_Arr, int i_Row);
-void fn_CoutRes(const char& ccref_Alb, const int& ciref_Dir, char** c2p_Basic, char* cp_Spec, int* ip_Spec);
+std::string fn_CoutRes(const char& ccref_Alb, const int& ciref_Dir, char** c2p_Basic, char* cp_Spec, int* ip_Spec);
 
 int main(){
     char** c2p_Basic        = nullptr;// COM: general map
@@ -18,15 +19,20 @@ int main(){
     cp_Spec                 = obj_Pair.first;
     ip_Spec                 = obj_Pair.second;
 
-    int i_NumRow            =   -1;
+    int i_NumRow            = -1;
     std::cin>>  i_NumRow;
+    std::string s_Res       = "";
     for(int i_Ct= 0; i_Ct< i_NumRow; i_Ct++){
         char c_Alb          =   '\0';
         int i_Dir           =   -1;
         std::cin>> c_Alb>> i_Dir;
-        fn_CoutRes(c_Alb, i_Dir, c2p_Basic, cp_Spec, ip_Spec);
+        s_Res               += fn_CoutRes(c_Alb, i_Dir, c2p_Basic, cp_Spec, ip_Spec);
     }
+    std::cout<< s_Res;
 
+    fn_RemDyMem(c2p_Basic, 4);
+    delete [] cp_Spec;
+    delete [] ip_Spec;
 
     return 0;
 }
@@ -46,7 +52,7 @@ std::pair<char*, int*> fn_DecArrSpec(){
     return std::pair<char*, int*>(cp_Spec, ip_Spec);
 }
 
-void fn_CoutRes(const char& ccref_Alb, const int& ciref_Dir, char** c2p_Basic, char* cp_Spec, int* ip_Spec){
+std::string fn_CoutRes(const char& ccref_Alb, const int& ciref_Dir, char** c2p_Basic, char* cp_Spec, int* ip_Spec){
     // COM: Checking if the alphabet is in the array
     char* cp_Pos        = std::find(cp_Spec, (cp_Spec + 14), ccref_Alb);
     int i_GenInd        = -1;
@@ -64,8 +70,8 @@ void fn_CoutRes(const char& ccref_Alb, const int& ciref_Dir, char** c2p_Basic, c
                 break;
             }
         }
-
-        if(i_GenInd!= -1){// COM: hitting
+    }
+    if(i_GenInd!= -1){// COM: hitting
             switch(ciref_Dir){
                 case 1:
                     i_GenInd -=10;
@@ -84,20 +90,23 @@ void fn_CoutRes(const char& ccref_Alb, const int& ciref_Dir, char** c2p_Basic, c
                 break;
             }
             if(i_GenInd < 0){
-                i_GenInd = 40 - i_GenInd;
+                i_GenInd = 40 + i_GenInd;
             }
 
             int i_Row = i_GenInd/ 10;
             int i_Col = i_GenInd% 10;
-            std::cout<<c2p_Basic[i_Row][i_Col]<< "\n";
+            std::string s_Tmp(1, c2p_Basic[i_Row][i_Col]);
+            return s_Tmp+"\n";
         }
         else{
             std::cerr<< "Error";
             exit(1);
         }
-    }
+
 }
 
 void fn_RemDyMem(char** c2p_Arr, int i_Row){
-
+    for(int i_Ct=0; i_Ct < i_Row ; i_Ct++){
+        delete [] c2p_Arr[i_Ct];
+    }
 }

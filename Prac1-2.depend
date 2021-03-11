@@ -1,5 +1,6 @@
 # depslib dependency file v1.0
-1615450546 source:e:\codeworkshop\codeblock\projectdsalg\prac1-2\main.cpp
+1615451666 source:e:\codeworkshop\codeblock\projectdsalg\prac1-2\main.cpp
 	<iostream>
+	<string>
 	<algorithm>
 

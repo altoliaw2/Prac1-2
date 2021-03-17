@@ -72,25 +72,30 @@ std::string fn_CoutRes(const char& ccref_Alb, const int& ciref_Dir, char** c2p_B
         }
     }
     if(i_GenInd!= -1){// COM: hitting
+            int i_Tmp = i_GenInd / 10;
+            int i_Tmp2= -1;
             switch(ciref_Dir){
                 case 1:
                     i_GenInd -=10;
+                    i_GenInd = (i_GenInd < 0)?(40 + i_GenInd): i_GenInd;
                 break;
                 case 2:
                     i_GenInd +=10;
+                    i_GenInd = (i_GenInd >= 40)?(i_GenInd - 40): i_GenInd;
                 break;
                 case 3:
                     i_GenInd +=1;
+                    i_Tmp2  = ((i_GenInd) / 10);
+                    i_GenInd    = (i_Tmp != i_Tmp2)? (i_GenInd - 10): i_GenInd;
                 break;
                 case 4:
                     i_GenInd -=1;
+                    i_Tmp2  = ((i_GenInd) / 10);
+                    i_GenInd    = (i_Tmp != i_Tmp2)? (i_GenInd + 10): i_GenInd;
                 break;
                 default:
                     exit(1);
                 break;
-            }
-            if(i_GenInd < 0){
-                i_GenInd = 40 + i_GenInd;
             }
 
             int i_Row = i_GenInd/ 10;
